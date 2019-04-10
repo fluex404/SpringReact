@@ -1,19 +1,25 @@
 import React, { Component } from 'react';
-import Axios from "axios";
 import './App.css';
+import ProjectBoard from './components/ProjectBoard';
+import NavBar from './components/Navbar';
+import AddProjectTask from './components/AddProjectTask';
+import { BrowserRouter as Router, Route} from 'react-router-dom';
+import { Provider } from 'react-redux';
+import store from './store';
 
 class App extends Component {
 
-  handleClick = () => {
-    Axios.delete("http://localhost:8080/api/board/fcbb31c2-ff00-471a-ab0f-2b45c43ac612")
-    .then(r => console.log(r));
-  }
-
   render() {
     return (
-      <div className="container">
-        <button className="btn btn-danger" onClick={this.handleClick}>button</button>
-      </div>
+      <Provider store={store}>
+      <Router>
+        <div className="container">
+          <NavBar/>
+          <Route exact path="/" component={ProjectBoard}/>
+          <Route exact path="/addProjectTask" component={AddProjectTask}/>
+        </div>
+      </Router>
+      </Provider>
     );
   }
 }
