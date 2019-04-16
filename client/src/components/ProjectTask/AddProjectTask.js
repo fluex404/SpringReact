@@ -1,8 +1,5 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import PropTypes from 'prop-types';
-import {connect} from 'react-redux';
-import {addProjectTask} from '../actions/ProjectTaskActions';
 
 class AddProjectTask extends Component {
   constructor() {
@@ -10,35 +7,29 @@ class AddProjectTask extends Component {
     this.state = {
       summary: "",
       acceptanceCriteria: "",
-      status: "",
-      errors: {}
+      status: ""
     };
 
-    this.onChange = this.onChange.bind(this);
-  }
-  componentWillReceiveProps(nextProps) {
-    if(nextProps.errors) {
-      this.setState({errors: nextProps.errors});
-    }
-  }
-  onChange(e) {
-    this.setState({[e.target.name]: e.target.value});
+    this.onSubmit = this.onSubmit.bind(this);
   }
 
-  handleClick = (e) => {
+  onChange = (e) => {
+    this.setState({[e.target.name]: e.target.value});
+  }
+  onSubmit(e) {
     e.preventDefault();
     const newProjectTask = {
       summary: this.state.summary,
       acceptanceCriteria: this.state.acceptanceCriteria,
       status: this.state.status
-    };
-    // console.log(newProjectTask);
-    this.props.addProjectTask(newProjectTask, this.props.history);
+    }
+    console.log(newProjectTask);
   }
 
   render() {
     return (
       <div className="addProjectTask">
+        {/*<!-- CREATE / UPDATE PROJECT TASK FORM STARTS HERE -->*/}
         <div className="container">
           <div className="row">
             <div className="col-md-8 m-auto">
@@ -48,14 +39,14 @@ class AddProjectTask extends Component {
               <h4 className="display-4 text-center">
                 Add /Update Project Task
               </h4>
-              <form>
+              <form onSubmit={this.onSubmit}>
                 <div className="form-group">
                   <input
                     type="text"
                     className="form-control form-control-lg"
                     name="summary"
                     placeholder="Project Task summary"
-                    valule={this.state.summary}
+                    value={this.state.summary}
                     onChange={this.onChange}
                   />
                 </div>
@@ -64,16 +55,16 @@ class AddProjectTask extends Component {
                     className="form-control form-control-lg"
                     placeholder="Acceptance Criteria"
                     name="acceptanceCriteria"
-                    onChange={this.onChange}
                     value={this.state.acceptanceCriteria}
+                    onChange={this.onChange}
                   />
                 </div>
                 <div className="form-group">
                   <select
                     className="form-control form-control-lg"
                     name="status"
-                    onChange={this.onChange}
                     value={this.state.status}
+                    onChange={this.onChange}
                   >
                     <option value="">Select Status</option>
                     <option value="TO_DO">TO DO</option>
@@ -84,7 +75,6 @@ class AddProjectTask extends Component {
                 <input
                   type="submit"
                   className="btn btn-primary btn-block mt-4"
-                  onClick={this.handleClick}
                 />
               </form>
             </div>
@@ -94,14 +84,4 @@ class AddProjectTask extends Component {
     );
   }
 }
-
-AddProjectTask.propTypes = {
-  addProjectTask: PropTypes.func.isRequired,
-  errors: PropTypes.object.isRequired
-}
-
-const mapStateToProps = state => ({
-  errors: state.errors
-});
-
-export default connect(mapStateToProps, {addProjectTask}) (AddProjectTask);
+export default AddProjectTask;
