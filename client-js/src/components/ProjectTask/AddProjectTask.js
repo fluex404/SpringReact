@@ -1,5 +1,9 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import { addProjectTask } from "../../action/projectTaskActions";
+import classnames from "classnames";
 
 class AddProjectTask extends Component {
   constructor() {
@@ -7,26 +11,36 @@ class AddProjectTask extends Component {
     this.state = {
       summary: "",
       acceptanceCriteria: "",
-      status: ""
+      status: "",
+      errors: {}
     };
 
     this.onSubmit = this.onSubmit.bind(this);
   }
 
-  onChange = (e) => {
-    this.setState({[e.target.name]: e.target.value});
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.errors) {
+      this.setState({ errors: nextProps.errors });
+    }
   }
+
+  onChange = e => {
+    this.setState({ [e.target.name]: e.target.value });
+  };
   onSubmit(e) {
     e.preventDefault();
     const newProjectTask = {
       summary: this.state.summary,
       acceptanceCriteria: this.state.acceptanceCriteria,
       status: this.state.status
-    }
-    console.log(newProjectTask);
+    };
+    // console.log(newProjectTask);
+    this.props.addProjectTask(newProjectTask, this.props.history);
   }
 
   render() {
+    const { errors } = this.state;
+
     return (
       <div className="addProjectTask">
         {/*<!-- CREATE / UPDATE PROJECT TASK FORM STARTS HERE -->*/}
@@ -43,7 +57,9 @@ class AddProjectTask extends Component {
                 <div className="form-group">
                   <input
                     type="text"
-                    className="form-control form-control-lg"
+                    className={classnames("form-control form-control-lg", {
+                      "is-invalid": errors.summary
+                    })}
                     name="summary"
                     placeholder="Project Task summary"
                     value={this.state.summary}
@@ -84,4 +100,17 @@ class AddProjectTask extends Component {
     );
   }
 }
-export default AddProjectTask;
+
+AddProjectTask.propTypes = {
+  addProjectTask: PropTypes.func.isRequired,
+  errors: PropTypes.object.isRequired
+};
+
+const mapStateToProps = state => ({
+  errors: state.errors
+});
+
+export default connect(
+  mapStateToProps,
+  { addProjectTask }
+)(AddProjectTask);

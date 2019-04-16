@@ -3,21 +3,21 @@ import React, { Component } from 'react';
 class ProjectTaskItem extends Component {
     render() { 
         return ( 
-            <div class="card mb-1 bg-light">
+            <div className="card mb-1 bg-light">
 
-                <div class="card-header text-primary">
+                <div className="card-header text-primary">
                     ID: projectSequence
                 </div>
-                <div class="card-body bg-light">
-                    <h5 class="card-title">summary</h5>
-                    <p class="card-text text-truncate ">
+                <div className="card-body bg-light">
+                    <h5 className="card-title">summary</h5>
+                    <p className="card-text text-truncate ">
                         acceptanceCriteria
                     </p>
-                    <a href="lasjdflkasjdf.html" class="btn btn-primary">
+                    <a href="lasjdflkasjdf.html" className="btn btn-primary">
                         View / Update
                     </a>
 
-                    <button class="btn btn-danger ml-4">
+                    <button className="btn btn-danger ml-4">
                         Delete
                     </button>
                 </div>
