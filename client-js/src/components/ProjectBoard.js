@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import ProjectTaskItem from "./ProjectTask/ProjectTaskItem";
 import { connect } from "react-redux";
-import PropTypes from "prop-types";
 import { getBacklog } from "../action/projectTaskActions";
 
 class ProjectBoard extends Component {
